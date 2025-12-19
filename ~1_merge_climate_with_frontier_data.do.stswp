@@ -1,0 +1,69 @@
+clear all
+ssc install estout
+
+**** Insert path to the cloned git repository 
+global ROOT "Y:\RM_macro_project"  
+cd "$ROOT"
+cap mkdir "$ROOT\bld"
+global OUT "$ROOT\bld"
+cap mkdir "$OUT\graphs"
+cap mkdir "$OUT\tables"
+cap mkdir "$OUT\data"
+
+import excel "$ROOT\raw_data\YCOM_2024_publicdata.xlsx", sheet("YCOM_2010_2024") firstrow clear 
+
+keep GeoID GeoName GeoType variable x2020
+keep if GeoType == "county"
+
+rename GeoID fips
+keep fips GeoName GeoType variable x2020
+drop if x2020 == . 
+duplicates report fips variable
+
+reshape wide x2020, i(fips) j(variable) string
+
+foreach v of varlist x2020* {
+	local newname = subinstr("`v'", "x2020", "", .)
+	rename `v' `newname'
+}
+
+save "$OUT\data\county_YCOM_2020_wide.dta", replace
+
+* Frontier sample (e.g. not west coast, but there is aslo a variable to incl it)
+cd "$ROOT\raw_data\"
+
+use "proptaxvote.dta", clear
+
+keep if sampE_W1790E1890 == 1
+
+keep gisjoin fips statea statename km_grid_cel_code ///
+     tye_tfe890_500kNI_100_l6 ///
+     log_area_2010 lat lon temp_mean rain_mean elev_mean tri_ave ppt_risk ave_gyi ///
+     d_coa d_riv d_lak d_port d_mrdspre1890 d_batt ///
+     shslav1860 wsexrat1890 fb_shr1890 fbscotirel_shr1890 bplfrac_1890 ///
+     yearswithRRbef1890 shempmanu1890 
+	 
+ rename tye_tfe890_500kNI_100_l6 TFE
+ label var TFE "Totel Frontier Experience"
+ tostring fips, replace format(%05.0f)
+ 
+sum statea // 2040 counties
+
+merge 1:1 fips using "$OUT\data\county_YCOM_2020_wide.dta"
+keep if _merge == 3
+drop _merge 
+order gisjoin fips statename GeoName GeoType TFE 
+
+save "$OUT\data\county_level_project_data.dta", replace 
+		   
+		   
+		   
+
+
+
+
+		   
+		   
+ 
+ 
+ 
