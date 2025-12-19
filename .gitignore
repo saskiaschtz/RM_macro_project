@@ -1,0 +1,11 @@
+# --- Stata ---
+*.log
+*.smcl
+*.gph
+
+# --- Output folders ---
+bld/
+
+# --- Temporary files ---
+*.tmp
+*.swp
