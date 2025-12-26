@@ -1,0 +1,65 @@
+use usa_00004.dta, clear
+preserve
+
+gen str5 fips = string(statefip, "%02.0f") + string(countyfip, "%03.0f")
+
+**************************************************
+*Clean Data 
+**************************************************
+
+replace inctot = . if inctot >= 9999998
+
+**************************************************
+* 1. RACE GROUPINGS (based on YOUR codebook)
+**************************************************
+
+* White
+gen race_white = race == 1
+
+* Black
+gen race_black = race == 2
+
+* Asian (Chinese, Japanese, Other Asian / PI)
+gen race_asian = inlist(race, 4, 5, 6)
+
+* Other + multiracial
+gen race_other = inlist(race, 3, 7, 8, 9)
+
+**************************************************
+* 2. EDUCATION GROUPINGS
+**************************************************
+
+gen educ_less_hs = educ <= 5
+gen educ_hs       = educ == 6
+gen educ_somecol  = inrange(educ, 7, 9)
+gen educ_baplus   = educ >= 10
+
+**************************************************
+* 3. COLLAPSE TO COUNTY LEVEL
+**************************************************
+
+collapse ///
+    (mean) age inctot ///
+    (mean) race_white race_black race_asian race_other ///
+    (mean) educ_less_hs educ_hs educ_somecol educ_baplus ///
+    [pw=perwt], by(fips)
+
+**************************************************
+* 4. Label variables (strongly recommended)
+**************************************************
+
+label variable age            "Mean age"
+label variable inctot         "Mean total income"
+label variable race_white     "Share White"
+label variable race_black     "Share Black"
+label variable race_asian     "Share Asian"
+label variable race_other     "Share other or multiracial (race)"
+label variable educ_less_hs   "Share with Less than a High School Diploma"
+label variable educ_hs        "Share with High School Diploma"
+label variable educ_somecol   "Share with some College"
+label variable educ_baplus    "Share with a Bachelor or Higher"
+                                                               **************************************************
+* 5. Save county-level dataset
+**************************************************
+
+save county_level_data.dta, replace
