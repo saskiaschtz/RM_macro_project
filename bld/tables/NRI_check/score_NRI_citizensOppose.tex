@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Estimated percentage who think citizens should do less to address global warming (citizensOppose, 2020)}
+\begin{tabular}{lccccc}
+\hline\hline
+& $\beta$ & $\sigma$ & $t$ & $p$ & ci95\% \\
+\hline
+\multicolumn{6}{l}{\textit{Panel A: Outcome}}\\
+\hline
+Total Frontier Experience (years) & 0.211 & (0.050) & 4.24 & 0.000 & 0.113, 0.309 \\
+\hline
+Observations & 2036 &  &  &  &  \\
+R-squared    & 0.531 &  &  &  &  \\
+\hline\hline
+\multicolumn{6}{l}{\textit{Panel B: Outcome + RepShare}}\\
+\hline
+Total Frontier Experience (years) & 0.064 & (0.026) & 2.43 & 0.016 & 0.012, 0.115 \\
+Republican vote share, county total (2020) & 11.996 & (0.248) & 48.46 & 0.000 & 11.509, 12.483 \\
+\hline
+Observations & 2036 &  &  &  &  \\
+R-squared    & 0.824 &  &  &  &  \\
+\hline\hline
+\multicolumn{6}{l}{\footnotesize Dependent variable: citizensOppose.}\\
+\multicolumn{6}{l}{\footnotesize All models include geographic and historical controls (including NRI) and state fixed effects.}\\
+\multicolumn{6}{l}{\footnotesize Standard errors clustered at 60km grid cell (km\_grid\_cel\_code).}\\
+\multicolumn{6}{l}{\footnotesize Note: RepShare is included in the YCOM estimator; interpret Panel B as diagnostic, not causal mediation.}\\
+\end{tabular}
+\end{table}
+
+\end{document}
