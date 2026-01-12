@@ -1,6 +1,6 @@
 *******************************************************
 * Frontier Culture & Climate Attitudes
-* Empirical Analysis
+* Mediator Analysis
 *******************************************************
 
 clear all
@@ -65,7 +65,7 @@ foreach y of global outcomes {
     quietly correlate rep_share TFE
     local corr_rep_TFE = r(rho)
 
-    * Histogram of outcome (optional)
+    * Histogram of outcome 
     histogram `y', bins(50) color("128 100 162") ///
         title("Distribution of `y'")
     graph export "$OUT\graphs\histo_`y'.png", as(png) replace
@@ -91,7 +91,7 @@ eststo clear
 reg rep_share TFE $geo $hist i.statea, cluster(km_grid_cel_code)
 eststo med
 
-esttab med using "$OUT\tables\mediator_TFE_to_rep_share.tex", replace ///
+esttab med using "$OUT\tables\general_results\mediator_TFE_to_rep_share.tex", replace ///
     title("Mediator regression: Frontier Experience and Republican Vote Share (2020)") ///
     keep(TFE) label ///
     cells("b(fmt(3)) se(fmt(3) par) t(fmt(2)) p(fmt(3)) ci(fmt(3))") ///

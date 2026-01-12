@@ -1,0 +1,24 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Moderation (centered): TFE $\times$ RepShare on localofficialsOppose}
+\begin{tabular}{l*{1}{cccc}}
+\hline\hline
+          &\multicolumn{4}{c}{localofficialsOppose}\\
+          &        b&       se&        t&        p\\
+\hline
+TFE (centered)&    0.004&  (0.031)&     0.13&    0.899\\
+RepShare (centered)&   13.469&  (0.258)&    52.18&    0.000\\
+TFE (centered) $\times$ RepShare (centered)&    0.436&  (0.126)&     3.47&    0.001\\
+\hline
+Observations&     2036&         &         &         \\
+R-squared &    0.826&         &         &         \\
+\hline\hline
+\multicolumn{5}{l}{\footnotesize All models include geographic + historical controls and state fixed effects.}\\
+\multicolumn{5}{l}{\footnotesize ,}\\
+\multicolumn{5}{l}{\footnotesize SEs clustered at 60km grid cell.}\\
+\multicolumn{5}{l}{\footnotesize ,}\\
+\multicolumn{5}{l}{\footnotesize Centered: TFE\\_c = TFE - mean(TFE); rep\\_share\\_c = rep\\_share - mean(rep\\_share).}\\
+\multicolumn{5}{l}{\footnotesize ,}\\
+\multicolumn{5}{l}{\footnotesize RepShare is included in YCOM estimation; interpret as diagnostic, not causal.}\\
+\end{tabular}
+\end{table}
