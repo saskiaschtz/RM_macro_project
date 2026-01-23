@@ -1,0 +1,23 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Frontier Experience and localofficialsOppose (centered)}
+\begin{tabular}{l*{3}{cc}}
+\toprule
+                &\multicolumn{2}{c}{Baseline}&\multicolumn{2}{c}{ + RepShare}&\multicolumn{2}{c}{Interaction}\\
+                &        b   &       se&        b   &       se&        b   &       se\\
+\midrule
+TFE (centered)  &    0.239***&  (0.061)&    0.003   &  (0.031)&    0.004   &  (0.031)\\
+RepShare (centered)&            &         &   13.464***&  (0.257)&   13.469***&  (0.258)\\
+TFE (centered) $\times$ RepShare (centered)&            &         &            &         &    0.436***&  (0.126)\\
+\midrule
+Observations    &     2036   &         &     2036   &         &     2036   &         \\
+R-squared       &    0.490   &         &    0.825   &         &    0.826   &         \\
+\bottomrule
+\multicolumn{7}{l}{\footnotesize All models include geographic + historical controls and state fixed effects.}\\
+\multicolumn{7}{l}{\footnotesize ,}\\
+\multicolumn{7}{l}{\footnotesize SEs clustered at 60km grid cell.}\\
+\multicolumn{7}{l}{\footnotesize ,}\\
+\multicolumn{7}{l}{\footnotesize Centered: x\_c = x - mean(x).}\\
+\multicolumn{7}{l}{\footnotesize ,}\\
+\end{tabular}
+\end{table}
