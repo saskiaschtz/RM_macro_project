@@ -112,3 +112,101 @@ foreach y of global outcomes {
           "Centered: x_c = x - mean(x).", ///
         )
 }
+
+* --- LaTeX wrapper file that includes the generated tabular
+file open f using "$OUT\tables\threecol\wrap_`y'.tex", write replace
+file write f "\begin{table}[htbp]\centering" _n
+file write f "\caption{Frontier Experience and `y'}" _n
+file write f "\label{tab:threecol_`y'}" _n
+file write f "\input{$OUT/tables/threecol/threecol_`y'.tex}" _n
+file write f "\end{table}" _n
+file close f
+
+
+
+cap mkdir "$OUT\graphs"
+
+reg citizensOppose TFE $geo $hist i.statea, cluster(km_grid_cel_code)
+local beta1 : display %9.3f _b[TFE]
+margins, at(TFE=(0(0.25)6)) post
+
+marginsplot, recast(line) noci ///
+    title("Citizens should do less to adress global warming") ///
+    subtitle("{&beta}{sub:1} = `beta1'***") ///
+    xtitle("Total Frontier Experience (decades)") ///
+    ytitle("Estimated Percentage") ///
+    xscale(range(0 6)) ///
+    xlabel(0(1)6) ///
+    plot1opts(lcolor(black) lwidth(medthick)) ///
+    addplot(scatter citizensOppose TFE, ///
+        msymbol(O) msize(vsmall) ///
+        mcolor("163 0 0") mfcolor("163 0 0")) ///
+    legend(off) 
+
+graph export "$OUT\graphs\scatter_citizensOppose.png", replace as(png)
+
+
+reg localofficialsOppose TFE $geo $hist i.statea, cluster(km_grid_cel_code)
+local beta1 : display %9.3f _b[TFE]
+margins, at(TFE=(0(0.25)6)) post
+
+marginsplot, recast(line) noci ///
+    title("Local officials should do less to adress global warming") ///
+    subtitle("{&beta}{sub:1} = `beta1'***") ///
+    xtitle("Total Frontier Experience (decades)") ///
+    ytitle("Estimated Percentage") ///
+    xscale(range(0 6)) ///
+    xlabel(0(1)6) ///
+    plot1opts(lcolor(black) lwidth(medthick)) ///
+    addplot(scatter localofficialsOppose TFE, ///
+        msymbol(O) msize(vsmall) ///
+        mcolor("163 0 0") mfcolor("163 0 0")) ///
+    legend(off) 
+
+graph export "$OUT\graphs\scatter_localofficialsOppose.png", replace as(png)
+
+
+
+reg priorityOppose TFE $geo $hist i.statea, cluster(km_grid_cel_code)
+local beta1 : display %9.3f _b[TFE]
+margins, at(TFE=(0(0.25)6)) post
+
+marginsplot, recast(line) noci ///
+    title("Global warming should not be a high priority for the next president and Congress") ///
+    subtitle("{&beta}{sub:1} = `beta1'***") ///
+    xtitle("Total Frontier Experience (decades)") ///
+    ytitle("Estimated Percentage") ///
+    xscale(range(0 6)) ///
+    xlabel(0(1)6) ///
+    plot1opts(lcolor(black) lwidth(medthick)) ///
+    addplot(scatter priorityOppose TFE, ///
+        msymbol(O) msize(vsmall) ///
+        mcolor("163 0 0") mfcolor("163 0 0")) ///
+    legend(off) 
+
+graph export "$OUT\graphs\scatter_priorityOppose.png", replace as(png)
+
+
+reg reducetaxOppose TFE $geo $hist i.statea, cluster(km_grid_cel_code)
+local beta1 : display %9.3f _b[TFE]
+margins, at(TFE=(0(0.25)6)) post
+
+local t1 "Opposition to requiring fossil fuel companies to pay a carbon tax"
+local t2 "and use the money to reduce other taxes (such as income tax) by an equal amount"
+
+marginsplot, recast(line) noci ///
+   title("`t1'" "`t2'") ///
+    subtitle("{&beta}{sub:1} = `beta1'***") ///
+    xtitle("Total Frontier Experience (decades)") ///
+    ytitle("Estimated Percentage") ///
+    xscale(range(0 6)) ///
+    xlabel(0(1)6) ///
+    plot1opts(lcolor(black) lwidth(medthick)) ///
+    addplot(scatter reducetaxOppose TFE, ///
+        msymbol(O) msize(vsmall) ///
+        mcolor("163 0 0") mfcolor("163 0 0")) ///
+    legend(off) 
+
+graph export "$OUT\graphs\scatter_reducetaxOppose.png", replace as(png)
+
+
