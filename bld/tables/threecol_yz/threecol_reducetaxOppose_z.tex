@@ -1,0 +1,22 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Frontier Experience and reducetaxOppose (y z-standardized; x centered)}
+\begin{tabular}{l*{3}{cc}}
+\toprule
+                &\multicolumn{2}{c}{Baseline}&\multicolumn{2}{c}{ + RepShare}&\multicolumn{2}{c}{Interaction}\\
+                &        b   &       se&        b   &       se&        b   &       se\\
+\midrule
+TFE (centered)  &    0.105***&  (0.026)&   -0.009   &  (0.009)&   -0.009   &  (0.009)\\
+RepShare (centered)&            &         &    6.506***&  (0.094)&    6.508***&  (0.094)\\
+TFE (centered) $\times$ RepShare (centered)&            &         &            &         &    0.137***&  (0.052)\\
+\midrule
+Observations    &     2036   &         &     2036   &         &     2036   &         \\
+R-squared       &    0.506   &         &    0.910   &         &    0.910   &         \\
+\bottomrule
+\multicolumn{7}{l}{\footnotesize All models include geographic + historical controls and state fixed effects.}\\
+\multicolumn{7}{l}{\footnotesize ,}\\
+\multicolumn{7}{l}{\footnotesize SEs clustered at 60km grid cell.}\\
+\multicolumn{7}{l}{\footnotesize ,}\\
+\multicolumn{7}{l}{\footnotesize Centered: x\_c = x - mean(x); y\_z = (y - mean(y))/sd(y).}\\
+\end{tabular}
+\end{table}
