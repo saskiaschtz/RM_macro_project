@@ -15,3 +15,6 @@ merge 1:1 fips using "RuralAtlasData24_temp.dta"
 
 * Step 5: Check results
 tab _merge
+
+*Step 6: Save
+save "Y:\RM_macro_project\bld\data\county_level_repShare_Density_project_data.dta", replace
