@@ -28,7 +28,7 @@ cap mkdir "$OUT\graphs"
 cap mkdir "$OUT\graphs\ycentered"
 cap mkdir "$OUT\graphs\yz"
 
-use "$OUT\data\county_level_repshare_project_data.dta", clear
+use "$OUT\data\county_level_repShare_Density_project_data.dta", clear
 
 *******************************************************
 * Outcomes
@@ -41,7 +41,7 @@ global outcomes citizens citizensOppose localofficials localofficialsOppose prio
 global geo ///
     log_area_2010 lat lon temp_mean rain_mean elev_mean ///
     d_coa d_riv d_lak d_port tri_ave ppt_risk ///
-    ave_gyi d_mrdspre1890 d_batt
+    ave_gyi d_mrdspre1890 d_batt log_PopDensity2020
 
 global hist ///
     shslav1860 wsexrat1890 fb_shr1890 fbscotirel_shr1890 ///
@@ -59,6 +59,12 @@ gen double rep_share_c = rep_share - r(mean)
 
 label var TFE_c "TFE (centered)"
 label var rep_share_c "RepShare (centered)"
+
+*******************************************************
+* Log Population Density
+*******************************************************
+gen double log_PopDensity2020 = log(PopDensity2020 + 1)
+label var log_PopDensity2020 "Log Population Density (2020)"
 
 *******************************************************
 * Create transformed outcomes:
