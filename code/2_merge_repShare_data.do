@@ -1,8 +1,6 @@
 clear all
 ssc install estout
 
-**** Insert path to the cloned git repository 
-global ROOT "Y:\RM_macro_project" 
 global OUT "$ROOT\bld"
 
 *** voting data

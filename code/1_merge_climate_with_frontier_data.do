@@ -2,7 +2,6 @@ clear all
 ssc install estout
 
 **** Insert path to the cloned git repository 
-global ROOT "Y:\RM_macro_project"  
 cd "$ROOT"
 cap mkdir "$ROOT\bld"
 global OUT "$ROOT\bld"

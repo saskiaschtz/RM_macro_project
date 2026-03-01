@@ -10,8 +10,8 @@ global OUT  "$ROOT\bld"
 cap mkdir "$OUT\data"
 
 cap mkdir "$OUT\tables"
-cap mkdir "$OUT\tables\threecol_ycentered"
-cap mkdir "$OUT\tables\threecol_yz"
+cap mkdir "$OUT\tables\main_results"
+cap mkdir "$OUT\tables\standardized_results"
 
 cap mkdir "$OUT\graphs"
 cap mkdir "$OUT\graphs\ycentered"

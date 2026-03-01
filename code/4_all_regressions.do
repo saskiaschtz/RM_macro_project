@@ -12,12 +12,11 @@ ssc install estout, replace
 *******************************************************
 * Paths
 *******************************************************
-global ROOT "Y:\RM_macro_project"
 global OUT  "$ROOT\bld"
 
 cap mkdir "$OUT\tables"
-cap mkdir "$OUT\tables\threecol_ycentered"
-cap mkdir "$OUT\tables\threecol_yz"
+cap mkdir "$OUT\tables\main_results"
+cap mkdir "$OUT\tables\standardized_results"
 
 cap mkdir "$OUT\graphs"
 cap mkdir "$OUT\graphs\ycentered"
@@ -84,7 +83,7 @@ eststo clear
 reg rep_share_c TFE_c $geo $hist i.statea, cluster(km_grid_cel_code)
 eststo medX
 
-esttab medX using "$OUT\tables\threecol_ycentered\mediator_TFE_to_repShare_centered.tex", replace ///
+esttab medX using "$OUT\tables\main_results\mediator_TFE_to_repShare_centered.tex", replace ///
     title("Mediator regression (centered): TFE -> RepShare") ///
     booktabs label ///
     cells("b(star fmt(3)) se(par fmt(3))") ///
@@ -98,7 +97,7 @@ esttab medX using "$OUT\tables\threecol_ycentered\mediator_TFE_to_repShare_cente
       "Centered: x_c = x - mean(x)." ///
     )
 
-esttab medX using "$OUT\tables\threecol_yz\mediator_TFE_to_repShare_centered.tex", replace ///
+esttab medX using "$OUT\tables\standardized_results\mediator_TFE_to_repShare_centered.tex", replace ///
     title("Mediator regression (centered): TFE -> RepShare") ///
     booktabs label ///
     cells("b(star fmt(3)) se(par fmt(3))") ///
@@ -135,7 +134,7 @@ foreach y of global outcomes {
     reg `y'_mc c.TFE_c##c.rep_share_c $geo $hist i.statea, cluster(km_grid_cel_code)
     eststo m3
 
-    esttab m1 m2 m3 using "$OUT\tables\threecol_ycentered\threecol_`y'_mc.tex", replace ///
+    esttab m1 m2 m3 using "$OUT\tables\main_results\threecol_`y'_mc.tex", replace ///
         title("Frontier Experience and `y' (y mean-centered; x centered)") ///
         booktabs label ///
         mtitles("Baseline" " + RepShare" "Interaction") ///
@@ -157,11 +156,11 @@ foreach y of global outcomes {
         )
 
     * LaTeX wrapper
-    file open f using "$OUT\tables\threecol_ycentered\wrap_`y'_mc.tex", write replace
+    file open f using "$OUT\tables\main_results\wrap_`y'_mc.tex", write replace
     file write f "\begin{table}[htbp]\centering" _n
     file write f "\caption{Frontier Experience and `y' (y mean-centered)}" _n
-    file write f "\label{tab:threecol_ycentered_`y'}" _n
-    file write f "\input{$OUT/tables/threecol_ycentered/threecol_`y'_mc.tex}" _n
+    file write f "\label{tab:main_results_`y'}" _n
+    file write f "\input{$OUT/tables/main_results/threecol_`y'_mc.tex}" _n
     file write f "\end{table}" _n
     file close f
 }
@@ -189,7 +188,7 @@ foreach y of global outcomes {
     reg `y'_z c.TFE_c##c.rep_share_c $geo $hist i.statea, cluster(km_grid_cel_code)
     eststo m3
 
-    esttab m1 m2 m3 using "$OUT\tables\threecol_yz\threecol_`y'_z.tex", replace ///
+    esttab m1 m2 m3 using "$OUT\tables\standardized_results\threecol_`y'_z.tex", replace ///
         title("Frontier Experience and `y' (y z-standardized; x centered)") ///
         booktabs label ///
         mtitles("Baseline" " + RepShare" "Interaction") ///
@@ -211,11 +210,11 @@ foreach y of global outcomes {
         )
 
     * LaTeX wrapper
-    file open f using "$OUT\tables\threecol_yz\wrap_`y'_z.tex", write replace
+    file open f using "$OUT\tables\standardized_results\wrap_`y'_z.tex", write replace
     file write f "\begin{table}[htbp]\centering" _n
     file write f "\caption{Frontier Experience and `y' (y z-standardized)}" _n
-    file write f "\label{tab:threecol_yz_`y'}" _n
-    file write f "\input{$OUT/tables/threecol_yz/threecol_`y'_z.tex}" _n
+    file write f "\label{tab:standardized_results_`y'}" _n
+    file write f "\input{$OUT/tables/standardized_results/threecol_`y'_z.tex}" _n
     file write f "\end{table}" _n
     file close f
 }
