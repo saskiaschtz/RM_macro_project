@@ -10,6 +10,8 @@ cap mkdir "$OUT\graphs"
 cap mkdir "$OUT\tables"
 cap mkdir "$OUT\data"
 
+
+*** YCOM Data 
 import excel "$ROOT\raw_data\YCOM_2024_publicdata.xlsx", sheet("YCOM_2010_2024") firstrow clear 
 
 keep GeoID GeoName GeoType variable x2020
@@ -29,7 +31,7 @@ foreach v of varlist x2020* {
 
 save "$OUT\data\county_YCOM_2020_wide.dta", replace
 
-* Frontier sample (e.g. not west coast, but there is aslo a variable to incl it)
+*** Frontier sample 
 cd "$ROOT\raw_data\"
 
 use "proptaxvote.dta", clear
@@ -47,8 +49,9 @@ keep gisjoin fips statea statename km_grid_cel_code ///
  label var TFE "Totel Frontier Experience"
  tostring fips, replace format(%05.0f)
  
-sum statea // 2040 counties
+sum statea 
 
+*** Merge YCOM and TFE
 merge 1:1 fips using "$OUT\data\county_YCOM_2020_wide.dta"
 keep if _merge == 3  // drop all white counties 
 drop _merge 

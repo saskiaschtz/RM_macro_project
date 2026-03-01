@@ -1,6 +1,8 @@
 *******************************************************
 * Frontier Culture & Climate Attitudes
 * Natural desaster (Robustness)
+* NOT INCLUDED IN THE PAPER 
+* since NRI is not suitable data for robustness check
 *******************************************************
 
 clear all
@@ -12,14 +14,21 @@ ssc install estout, replace
 
 * Make sure to run _merge_climate_with_frontier_data.do first
 global ROOT "Y:\RM_macro_project"
-global OUT  "$ROOT\bld"
+cap mkdir "$ROOT\bld"
+global OUT "$ROOT\bld"
+cap mkdir "$OUT\data"
+
 
 
 *******************************************************
 * Merge with NRI data 
 *******************************************************
+use "Y:\RM_macro_project\raw_data\National_Risk_Index_Counties.dta"
 
-use "$OUT\data\National_Risk_Index_Counties_with5digitFIPS.dta", clear
+gen str5 statecountyfipscode5 = ///
+    string(statefipscode, "%02.0f") + string(countyfipscode, "%03.0f")
+	
+order statecountyfipscode5, before(statecountyfipscode)
 
 keep statecountyfipscode5 nationalriskindexscorecomposite nationalriskindexratingcomposite
 tab nationalriskindexratingcomposite
@@ -41,9 +50,6 @@ cap mkdir "$OUT\tables\NRI_check"
 global outcomes  citizensOppose  localofficialsOppose  priorityOppose  reducetaxOppose
 
 
-*******************************************************
-* Control Variables: score 
-*******************************************************
 
 global geo ///
     log_area_2010 lat lon temp_mean rain_mean elev_mean ///
@@ -56,22 +62,18 @@ global hist ///
     bplfrac_1890 yearswithRRbef1890 shempmanu1890
 
 
-***************************************************
-* Regression models for outcome `y' score 
-***************************************************
+
 foreach y of global outcomes {
 
 eststo clear
 
-* Model 1: outcome on TFE + controls + state FE (clustered SEs)
 qui reg `y' TFE $geo $hist i.statea, cluster(km_grid_cel_code)
 eststo m1
 
-* Model 3: outcome on TFE + rep_share + controls + state FE (clustered SEs)
+
 qui  reg `y' TFE rep_share $geo $hist i.statea, cluster(km_grid_cel_code)
 eststo m3
 
-* Export: two-column table (Outcome vs Outcome+Mediator)
 esttab m1 m3 using "$OUT\tables\NRI_check\score_NRI_`y'.tex", replace ///
     title("Frontier Experience and `y' (2020)") ///
     label ///

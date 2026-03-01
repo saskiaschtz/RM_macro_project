@@ -1,12 +1,11 @@
 clear all
 ssc install estout
 
-**** Make sure to run _merge_climate_with_frontier_data.do first to create the merged datatset 
-
 **** Insert path to the cloned git repository 
 global ROOT "Y:\RM_macro_project" 
 global OUT "$ROOT\bld"
 
+*** voting data
 cd "$ROOT\raw_data"
 import delimited using countypres_2000-2024.tab, delimiter(tab) clear
 
@@ -70,6 +69,7 @@ save "$OUT/data/rep_vote_share_USpres_2020.dta", replace
 
 use "$OUT\data\county_level_project_data.dta", clear
 
+*** Merge with YCOM and TFE data 
 merge 1:1 fips using  "$OUT/data/rep_vote_share_USpres_2020.dta"
 keep if _merge == 3
 drop _merge 
